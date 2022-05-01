@@ -1,0 +1,202 @@
+{
+	"Flutter stateless widget": {
+		"prefix": "stless",
+		"body": [
+			"class $1 extends StatelessWidget {",
+			"  const $1({ Key? key }) : super(key: key);",
+			"",
+			"  @override",
+			"  Widget build(BuildContext context) {",
+			"    return Container(",
+			"      $2",
+			"    );",
+			"  }",
+			"}"
+		],
+		"description": "Insert a StatelessWidget"
+		},
+	"Flutter stateful widget": {
+		"prefix": "stful",
+		"body": [
+			"class $1 extends StatefulWidget {",
+			"  const $1({ Key? key }) : super(key: key);",
+			"",
+			"  @override",
+			"  _$1State createState() => _$1State();",
+			"}",
+			"",
+			"class _$1State extends State<$1> {",
+			"  @override",
+			"  Widget build(BuildContext context) {",
+			"    return Container(",
+			"      $2",
+			"    );",
+			"  }",
+			"}"
+		],
+		"description": "Insert a StatefulWidget"
+	},
+	"Flutter widget with AnimationController": {
+		"prefix": "stanim",
+		"body": [
+			"class $1 extends StatefulWidget {",
+			"  const $1({ Key? key }) : super(key: key);",
+			"",
+			"  @override",
+			"  _$1State createState() => _$1State();",
+			"}",
+			"",
+			"class _$1State extends State<$1>",
+			"    with SingleTickerProviderStateMixin {",
+			"  late AnimationController _controller;",
+			"",
+			"  @override",
+			"  void initState() {",
+			"    super.initState();",
+			"    _controller = AnimationController(vsync: this);",
+			"  }",
+			"",
+			"  @override",
+			"  void dispose() {",
+			"    super.dispose();",
+			"    _controller.dispose();",
+			"  }",
+			"",
+			"  @override",
+			"  Widget build(BuildContext context) {",
+			"    return Container(",
+			"      $2",
+			"    );",
+			"  }",
+			"}"
+		],
+		"description": "Insert a StatefulWidget with an AnimationController"
+	},
+	"main": {
+		"prefix": "main",
+		"body": [
+			"void main(List<String> args) {",
+			"  $0",
+			"}"
+		],
+		"description": "Insert a main function, used as an entry point."
+	},
+	"try": {
+		"prefix": "try",
+		"body": [
+			"try {",
+			"  $0",
+			"} catch (${1:e}) {",
+			"}"
+		],
+		"description": "Insert a try/catch block."
+	},
+	"if": {
+		"prefix": "if",
+		"body": [
+			"if ($1) {",
+			"  $0",
+			"}"
+		],
+		"description": "Insert an if statement."
+	},
+	"if else": {
+		"prefix": "ife",
+		"body": [
+			"if ($1) {",
+			"  $0",
+			"} else {",
+			"}"
+		],
+		"description": "Insert an if statement with an else block."
+	},
+	"switch case": {
+		"prefix": "switch",
+		"body": [
+			"switch ($1) {",
+			"  case $2:",
+			"    $0",
+			"    break;",
+			"  default:",
+			"}"
+		],
+		"description": "Insert a switch statement."
+	},
+	"for": {
+		"prefix": "for",
+		"body": [
+			"for (var i = 0; i < ${1:count}; i++) {",
+			"  $0",
+			"}"
+		],
+		"description": "Insert a for loop."
+	},
+	"for in": {
+		"prefix": "fori",
+		"body": [
+			"for (var ${1:item} in ${2:items}) {",
+			"  $0",
+			"}"
+		],
+		"description": "Insert a for-in loop."
+	},
+	"while": {
+		"prefix": "while",
+		"body": [
+			"while ($1) {",
+			"  $0",
+			"}"
+		],
+		"description": "Insert a while loop."
+	},
+	"do while": {
+		"prefix": "do",
+		"body": [
+			"do {",
+			"  $0",
+			"} while ($1);"
+		],
+		"description": "Insert a do-while loop."
+	},
+	"fun": {
+		"prefix": "fun",
+		"body": [
+			"${3:void} ${1:name}(${2:args}) {",
+			"  $0",
+			"}"
+		],
+		"description": "Insert a function definition."
+	},
+	"class": {
+		"prefix": "class",
+		"body": [
+			"class ${1:Name} {",
+			"  $0",
+			"}"
+		],
+		"description": "Insert a class definition."
+	},
+	"typedef": {
+		"prefix": "typedef",
+		"body": "typedef ${1:Type} ${2:Name}(${3:params});",
+		"description": "Insert a typedef."
+	},
+	"test": {
+		"prefix": "test",
+		"body": [
+			"test('$1', () {",
+			"  $0",
+			"});"
+		],
+		"description": "Insert a test block."
+	},
+	"group": {
+		"prefix": "group",
+		"body": [
+			"group('$1', () {",
+			"  $0",
+			"});"
+		],
+		"description": "Insert a test group block."
+	}
+}
