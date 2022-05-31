@@ -248,6 +248,19 @@ for _, lsp in ipairs(servers) do
   }
 end
 
+-- Vue/Volar language server
+nvim_lsp.volar.setup {
+  filetypes = {'typescript', 'javascript', 'javascriptreact', 'typescriptreact','vue', 'json'},
+  init_options = {
+    typescript = {
+      serverPath = '/usr/local/lib/node_modules/typescript/lib/tsserverlibrary.js'
+    }
+  },
+  cmd = { 'vue-language-server', '--stdio' },
+  on_attach = on_attach,
+  capabilities = capabilities,
+}
+
 -- Example custom server
 local sumneko_root_path = vim.fn.getenv 'HOME' .. '/.local/bin/sumneko_lua' -- Change to your sumneko root installation
 local sumneko_binary = sumneko_root_path .. '/bin/Linux/lua-language-server'
