@@ -15,14 +15,17 @@ vim.cmd [[
 local use = require('packer').use
 require('packer').startup(function()
   use 'wbthomason/packer.nvim' -- Package manager
-  --use 'tpope/vim-fugitive' -- Git commands in nvim
+  use 'tpope/vim-fugitive' -- Git commands in nvim
   -- use 'tpope/vim-rhubarb' -- Fugitive-companion to interact with github
   use 'tpope/vim-commentary' -- "gc" to comment visual regions/lines
   use 'ludovicchabant/vim-gutentags' -- Automatic tags management
   -- UI to select things (files, grep results, open buffers...)
   use { 'nvim-telescope/telescope.nvim', requires = { 'nvim-lua/plenary.nvim' } }
-  use {"ellisonleao/gruvbox.nvim", requires = {"rktjmp/lush.nvim"}}
+  -- use {"ellisonleao/gruvbox.nvim", requires = {"rktjmp/lush.nvim"}}
   --use 'joshdick/onedark.vim' -- Theme inspired by Atom
+  -- use 'tjdevries/colorbuddy.vim'
+  --use 'tjdevries/gruvbuddy.nvim'
+  use {'dracula/vim', as = 'dracula'}
   use 'itchyny/lightline.vim' -- Fancier statusline
   -- Add indentation guides even on blank lines
   use 'lukas-reineke/indent-blankline.nvim'
@@ -42,7 +45,12 @@ require('packer').startup(function()
   use 'kosayoda/nvim-lightbulb' -- Code Action Lightbulb
   -- Flutter/Dart stuff 
   use {'akinsho/flutter-tools.nvim', requires = 'nvim-lua/plenary.nvim'} -- This plugin starts dartls behind the scenes
+  use 'mfussenegger/nvim-dap'
+  use 'rcarriga/nvim-dap-ui'
 end)
+
+-- Set shell to bash
+vim.opt.shell = "/bin/sh"
 
 --On pressing tab, insert 2 spaces
 vim.bo.expandtab = true
@@ -82,13 +90,18 @@ vim.wo.signcolumn = 'yes'
 --Set colorscheme (order is important here)
 vim.o.termguicolors = true
 vim.o.background = "dark"
-vim.cmd([[colorscheme gruvbox]])
+vim.cmd([[colorscheme dracula]])
+
+
 --Set statusbar
--- vim.g.lightline = {
---   -- colorscheme = 'gruvbux',
---   active = { left = { { 'mode', 'paste' }, { 'gitbranch', 'readonly', 'filename', 'modified' } } },
---   component_function = { gitbranch = 'FugitiveHead()' },
--- }
+vim.g.lightline = {
+  colorscheme = 'dracula',
+  active = { left = { { 'mode', 'paste' }, { 'gitbranch', 'readonly', 'filename', 'modified' } } },
+  component_function = { gitbranch = 'FugitiveHead' },
+}
+
+-- Remove mode as mode information is displayed in lightline
+vim.opt.showmode = false
 
 --Remap space as leader key
 vim.api.nvim_set_keymap('', '<Space>', '<Nop>', { noremap = true, silent = true })
@@ -151,7 +164,6 @@ vim.api.nvim_set_keymap('n', '<leader>so', [[<cmd>lua require('telescope.builtin
 vim.api.nvim_set_keymap('n', '<leader>?', [[<cmd>lua require('telescope.builtin').oldfiles()<CR>]], { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>sg', [[<cmd>lua require('telescope.builtin').git_files()<CR>]], { noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>.', [[<cmd>lua require('telescope.builtin').lsp_code_actions()<CR>]], { noremap = true, silent = true})
-
 
 
 -- Treesitter configuration
@@ -253,7 +265,7 @@ nvim_lsp.volar.setup {
   filetypes = {'typescript', 'javascript', 'javascriptreact', 'typescriptreact','vue', 'json'},
   init_options = {
     typescript = {
-      serverPath = '/usr/local/lib/node_modules/typescript/lib/tsserverlibrary.js'
+      serverPath = '/opt/homebrew/lib/node_modules/typescript/lib/tsserverlibrary.js'
     }
   },
   cmd = { 'vue-language-server', '--stdio' },
@@ -368,3 +380,53 @@ require("flutter-tools").setup {
 vim.api.nvim_set_keymap('n', '<leader>fr',':FlutterRun<CR>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', '<leader>fq',':FlutterQuit<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<leader>fc', [[<Cmd>lua require('telescope').extensions.flutter.commands()<CR>]], { noremap = true, silent = true })
+
+
+-- DAP 
+local dap = require('dap')
+dap.adapters.dart = {
+  type = "executable",
+  command = "node",
+  args = { os.getenv('HOME').."/ghq/github.com/Dart-Code/Dart-Code/out/dist/debug.js", "flutter"}
+}
+dap.configurations.dart = {
+  {
+    type = "dart",
+    request = "launch",
+    name = "Launch Flutter",
+    dartSdkPath = "/opt/homebrew/Caskroom/flutter/3.0.4/flutter/bin/cache/dart-sdk/",
+    flutterSdkPath = "/opt/homebrew/Caskroom/flutter/3.0.4/flutter",
+    program = "${workspaceFolder}/lib/main.dart",
+    cwd = "${workspaceFolder}",
+    toolArgs = {"--device-id", "chrome"}
+  }
+}
+
+dap.set_log_level('TRACE')
+
+vim.fn.sign_define('DapBreakpoint', {text='🟥', texthl='', linehl='', numhl=''})
+vim.fn.sign_define('DapBreakpointRejected', {text='🟦', texthl='', linehl='', numhl=''})
+vim.fn.sign_define('DapStopped', {text='⭐️', texthl='', linehl='', numhl=''})
+
+vim.keymap.set('n', '<F5>', function() require"dap".continue() end, { noremap = true, silent = true })
+vim.keymap.set('n', '<F10>', function() require"dap".step_over() end, { noremap = true, silent = true })
+vim.keymap.set('n', '<F11>', function() require"dap".step_into() end, { noremap = true, silent = true })
+vim.keymap.set('n', '<F12>', function() require"dap".step_out() end, { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>b', function() require"dap".toggle_breakpoint() end, { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>B', ":lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint Condition: '))<CR>", { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>Q', function() require"dap".terminate() end, {noremap = true, silent = true})
+
+-- TODO use with Flutter Tools for Hot Reload etc.
+-- DAP UI
+local dapui = require('dapui')
+dapui.setup()
+
+dap.listeners.after.event_initialized["dapui_config"] = function()
+  dapui.open()
+end
+dap.listeners.before.event_terminated["dapui_config"] = function()
+  dapui.close()
+end
+dap.listeners.before.event_exited["dapui_config"] = function()
+  dapui.close()
+end
