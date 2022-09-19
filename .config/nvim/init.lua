@@ -139,6 +139,7 @@ require('gitsigns').setup {
     topdelete = { hl = 'GitGutterDelete', text = '‾' },
     changedelete = { hl = 'GitGutterChange', text = '~' },
   },
+  current_line_blame = true,
 }
 
 -- Telescope
