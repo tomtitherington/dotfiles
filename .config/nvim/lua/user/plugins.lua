@@ -30,17 +30,17 @@ packer.init {
 
 --local use = require('packer').use
 require('packer').startup(function(use)
-	use 'wbthomason/packer.nvim' -- Package manager
-	use 'tpope/vim-fugitive'    -- Git commands in nvim
+	use 'wbthomason/packer.nvim'      -- Package manager
+	use 'tpope/vim-fugitive'          -- Git commands in nvim
 	-- use 'tpope/vim-rhubarb' -- Fugitive-companion to interact with github
-	use 'tpope/vim-commentary'  -- "gc" to comment visual regions/lines
-	use 'windwp/nvim-autopairs' -- automatically closes brackets, quotes .. etc
+	use 'tpope/vim-commentary'        -- "gc" to comment visual regions/lines
+	use 'windwp/nvim-autopairs'       -- automatically closes brackets, quotes .. etc
 	use 'kyazdani42/nvim-web-devicons' -- nerd fonts that a few plugins depend on
 
 	-- UI to select things (files, grep results, open buffers...)
 	use { 'nvim-telescope/telescope.nvim', requires = { 'nvim-lua/plenary.nvim' } }
 
-	use { 'dracula/vim', as = 'dracula' }
+	use { 'shaunsingh/nord.nvim' }
 	use { 'nvim-lualine/lualine.nvim', requires = { 'kyazdani42/nvim-web-devicons', opt = true } }
 
 	-- Add indentation guides even on blank lines
@@ -48,7 +48,7 @@ require('packer').startup(function(use)
 	-- Add git related info in the signs columns and popups
 	use { 'lewis6991/gitsigns.nvim', requires = { 'nvim-lua/plenary.nvim' } }
 
-	use { 'nvim-tree/nvim-tree.lua' } -- A file explorer 
+	use { 'nvim-tree/nvim-tree.lua' } -- A file explorer
 
 
 	-- Highlight, edit, and navigate code using a fast incremental parsing library

@@ -39,7 +39,10 @@ vim.wo.signcolumn = 'yes'
 --Set colorscheme (order is important here)
 vim.o.termguicolors = true
 vim.o.background = "dark"
-vim.cmd([[colorscheme dracula]])
+
+vim.g.nord_italic = false
+vim.g.nord_bold = false
+require('nord').set()
 
 -- Remove mode as mode information is displayed in lightline
 vim.opt.showmode = false
