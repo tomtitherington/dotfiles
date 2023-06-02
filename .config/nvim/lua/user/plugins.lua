@@ -35,6 +35,7 @@ require('packer').startup(function(use)
 	-- use 'tpope/vim-rhubarb' -- Fugitive-companion to interact with github
 	use 'tpope/vim-commentary'        -- "gc" to comment visual regions/lines
 	use 'windwp/nvim-autopairs'       -- automatically closes brackets, quotes .. etc
+  use 'windwp/nvim-ts-autotag' -- auto close HTML
 	use 'kyazdani42/nvim-web-devicons' -- nerd fonts that a few plugins depend on
 
 	-- UI to select things (files, grep results, open buffers...)

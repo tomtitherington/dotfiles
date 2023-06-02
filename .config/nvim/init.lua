@@ -10,6 +10,7 @@ require 'user.cmp'
 require 'user.dap'
 require 'user.lualine'
 require 'user.autopairs'
+require 'user.autotag'
 require 'user.nvimtree'
 
 -- Flutter tools setup

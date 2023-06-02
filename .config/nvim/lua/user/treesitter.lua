@@ -10,9 +10,10 @@ configs.setup {
 	sync_install = false,
 	auto_install = false,
 	highlight = {
-		enable = true, -- false will disable the whole extension
+		enable = true,              -- false will disable the whole extension
 	},
 	autopairs = { enable = true }, -- used with the autopairs plugin
+	autotag = { enable = true },  -- autoclose and auto-rename HTML tags
 	incremental_selection = {
 		enable = true,
 		keymaps = {

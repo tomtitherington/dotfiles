@@ -11,6 +11,9 @@ local servers = {
 	pyright = {},
 	clangd = {},
 	tsserver = {},
+	html = {},
+	eslint = {},
+	tailwindcss = {},
 	lua_ls = {
 		Lua = {
 			diagnostics = { globals = { "vim" } }, --silences undefined global vim warnings
