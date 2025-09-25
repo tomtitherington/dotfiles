@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Only on macOS
+[[ "$(uname -s)" == "Darwin" ]] || exit 0
+
+# Pick Homebrew prefix based on CPU
+if [[ "$(uname -m)" == "arm64" ]]; then
+  BREW_PREFIX="/opt/homebrew"
+else
+  BREW_PREFIX="/usr/local"
+fi
+
+# Install Homebrew if missing
+if ! command -v brew >/dev/null 2>&1; then
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  echo "eval \"\$($BREW_PREFIX/bin/brew shellenv)\"" >> "$HOME/.zprofile"
+  eval "$($BREW_PREFIX/bin/brew shellenv)"
+fi
+
+brew update
+
+# Use your global Brewfile if present
+if [[ -f "$HOME/.Brewfile" ]]; then
+  brew bundle --global --no-upgrade
+fi
+
+
