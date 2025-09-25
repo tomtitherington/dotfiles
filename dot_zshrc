@@ -1,0 +1,53 @@
+# EZA 'better ls'
+alias lla="eza -l -g -a --icons"
+
+alias lg="lazygit"
+
+# Load Z - a way to jump around directory history
+. /opt/homebrew/etc/profile.d/z.sh
+
+# Starship configuration
+eval "$(starship init zsh)"
+
+
+source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+# Created by `pipx` on 2024-11-21 14:00:36
+export PATH="$PATH:/Users/tomtitherington/.local/bin"
+
+# pnpm
+export PNPM_HOME="/Users/tomtitherington/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+export PATH="/opt/homebrew/opt/postgresql@17/bin:$PATH"
+
+
+. "$HOME/.atuin/bin/env"
+
+# Command history with nice UI
+eval "$(atuin init zsh)"
+
+# Directory history with Ctrl + H keybind
+
+# Keep a stack of visited dirs
+setopt AUTO_PUSHD PUSHD_IGNORE_DUPS
+DIRSTACKSIZE=50
+
+# FZF picker for the directory stack
+cdf() {
+  local pick idx
+  pick=$(dirs -v | fzf) || return
+  # Extract the first field (the numeric index), ignoring leading whitespace
+  idx=$(printf '%s\n' "$pick" | awk '{print $1}')
+  # Jump to that entry in the stack
+  cd +$idx
+}
+
+# Make the function a zle widget
+zle -N cdf
+
+# Bind Ctrl+H (that’s ^H) to it
+bindkey '^H' cdf
